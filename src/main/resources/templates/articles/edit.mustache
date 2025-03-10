@@ -1,0 +1,17 @@
+{{>layouts/header}}
+{{#article}}
+    <form class="container" action="/articles/update" method="post"> {{! action -> controller }} {{! from 태그는 Get, Post 메소드만 지원 Petch 미 지원}}
+        <input name="id" type="hidden" value="{{id}}" />  {{! id 도 던지 기에 articleForm 에 맴버변수로 id도 추가 해줘야 한다 }}
+        <div class="mb-3">
+            <label class="form-label">제목</label>
+            <input type="text" class="form-control" name="title" value="{{title}}">   {{! value="{{title} 으로 인해 articles/id/edit 에서 기존 title이 보인다}}
+        </div>
+        <div class="mb-3">
+            <label class="form-label">내용</label>
+            <textarea class="form-control" rows="3" name="content">{{content}}</textarea> {{! {{content}으로 인해 articles/id/edit 에서 기존 content가 보인다}}
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <a href="/articles/{{id}}">Back</a>          {{! edit 에서 back 하면 /articles/id로 이동 }}
+    </form>
+{{/article}}
+{{>layouts/footer}}
