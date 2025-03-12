@@ -2,16 +2,16 @@ package com.example.projectspring.controller;
 
 import com.example.projectspring.dto.ArticleForm;
 import com.example.projectspring.repository.ArticleRepository;
-import entity.Article;
+import com.example.projectspring.entity.Article;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @Controller
@@ -70,22 +70,22 @@ public class ArticleController {
         return "/articles/index";
     }
 
-
+// 수정 폼 만들기
     @GetMapping("articles/{id}/edit")
     public String edit(@PathVariable Long id, Model model) {
         // 수정할 데이터를 가져오기
-        Article articleEntity = articleRepository.findById(id).orElse(null);
+        Article articleEntity = articleRepository.findById(id).orElse(null);   // DB에 데이터를 꺼내옴
         // 모델에 데이터 등록
-        model.addAttribute("article", articleEntity);
+        model.addAttribute("article", articleEntity); //
         // 뷰 페이지 설정
         return "articles/edit";
     }
 
-// 여기 부분 체크 너무 어려움..
-    @PatchMapping("/articles/update")
-    public String update(ArticleForm form) {
+// 수정 페이지의 데이터를 DB로 갱신하고, 확인
+    @PostMapping("/articles/update")
+    public String update(ArticleForm form) {  // DTO로 받음
         log.info("entity: {}", form);
-        // dto -> Entity로 변환
+        // 1.dto를 -> Entity로 변환
         Article entityEntity = form.toEntity();
         log.info("entity: {}", entityEntity.toString());
         //2. Entity -> DB로 저장
@@ -97,9 +97,26 @@ public class ArticleController {
             articleRepository.save(entityEntity);
         }
         // 3. 수정 결과를 페이지로 리다이렉트 한다\
-
         return "redirect:/articles/" + entityEntity.getId() ;
     }
+
+    // Delete
+    @GetMapping("/articles/{id}/delete")
+    public String delete(@PathVariable Long id, RedirectAttributes rttr) {
+        log.info("삭제 요청이 들어왔습니다.");
+        // 1. 삭제 대상을 가져온다.
+        Article target = articleRepository.findById(id).orElse(null);
+        log.info(target.toString());
+        // 2. 대상을 삭제한다.
+        if (target != null) {
+            articleRepository.delete(target);
+            rttr.addFlashAttribute("msg", "삭제가 완료 되었습니다.");
+        }
+        // 3. 결과 페이지를 삭제한다.
+
+        return "redirect:/articles/";
+    }
+
 }
 
 

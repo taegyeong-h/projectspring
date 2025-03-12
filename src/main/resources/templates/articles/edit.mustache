@@ -1,4 +1,5 @@
 {{>layouts/header}}
+{{! edit 폼은 생성폼과 일치하여 new.mustache를 복사 해온다}}
 {{#article}}
     <form class="container" action="/articles/update" method="post"> {{! action -> controller }} {{! from 태그는 Get, Post 메소드만 지원 Petch 미 지원}}
         <input name="id" type="hidden" value="{{id}}" />  {{! id 도 던지 기에 articleForm 에 맴버변수로 id도 추가 해줘야 한다 }}

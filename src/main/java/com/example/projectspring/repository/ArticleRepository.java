@@ -1,6 +1,6 @@
 package com.example.projectspring.repository;
 
-import entity.Article;
+import com.example.projectspring.entity.Article;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

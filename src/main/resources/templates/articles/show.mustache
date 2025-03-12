@@ -18,6 +18,8 @@
     {{/article}}
     </tbody>
 </table>
-<a href="/articles/{{article.id}}/edit" class="btn-primary">Edit</a>
+<a href="/articles/{{article.id}}/edit" class="btn btn-primary">Edit</a>     {{! go to edit method : GetMapping("Articles/{id}/edit)"}}
+{{! --POST, GET, UPDATE, DELETE}}
+<a href="/articles/{{article.id}}/delete" class="btn btn-danger">Delete</a>     {{! go to delete method : GetMapping("Articles/{id}/delete)"}}
 <a href="/articles">Go to Article List</a>
 {{>layouts/footer}}
